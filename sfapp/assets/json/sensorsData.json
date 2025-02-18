@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "nom": "temp",
+    "valeur": "19.5",
+    "dateCapture": "2024-12-07 15:00:00",
+    "localisation": "D002",
+    "description": "test temperature",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 2,
+    "nom": "temp",
+    "valeur": "20.2",
+    "dateCapture": "2024-12-07 16:00:00",
+    "localisation": "D002",
+    "description": "test temperature",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 3,
+    "nom": "temp",
+    "valeur": "27.5",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D002",
+    "description": "test temperature",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 4,
+    "nom": "co2",
+    "valeur": "459",
+    "dateCapture": "2024-12-07 15:00:00",
+    "localisation": "D002",
+    "description": "test CO2",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 5,
+    "nom": "co2",
+    "valeur": "476",
+    "dateCapture": "2024-12-07 16:00:00",
+    "localisation": "D002",
+    "description": "test CO2",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 6,
+    "nom": "co2",
+    "valeur": "1454",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D002",
+    "description": "test CO2",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 7,
+    "nom": "hum",
+    "valeur": "53.8",
+    "dateCapture": "2024-12-07 15:00:00",
+    "localisation": "D002",
+    "description": "test humidite",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 8,
+    "nom": "hum",
+    "valeur": "55.4",
+    "dateCapture": "2024-12-07 16:00:00",
+    "localisation": "D002",
+    "description": "test humidite",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 9,
+    "nom": "hum",
+    "valeur": "56.1",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D002",
+    "description": "test humidite",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 10,
+    "nom": "pres",
+    "valeur": "true",
+    "dateCapture": "2024-12-07 15:00:00",
+    "localisation": "D002",
+    "description": "test presence",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 11,
+    "nom": "pres",
+    "valeur": "false",
+    "dateCapture": "2024-12-07 16:00:00",
+    "localisation": "D002",
+    "description": "test presence",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 12,
+    "nom": "pres",
+    "valeur": "true",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D002",
+    "description": "test presence",
+    "nomsa": "ESP-012"
+  },
+  {
+    "id": 13,
+    "nom": "temp",
+    "valeur": "21.2",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D001",
+    "description": "test temperature",
+    "nomsa": "ESP-028"
+  },
+  {
+    "id": 14,
+    "nom": "co2",
+    "valeur": "547",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D001",
+    "description": "test CO2",
+    "nomsa": "ESP-028"
+  },
+  {
+    "id": 15,
+    "nom": "hum",
+    "valeur": "24.5",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D001",
+    "description": "test humidite",
+    "nomsa": "ESP-028"
+  },
+  {
+    "id": 16,
+    "nom": "pres",
+    "valeur": "true",
+    "dateCapture": "2024-12-07 17:00:00",
+    "localisation": "D001",
+    "description": "test presence",
+    "nomsa": "ESP-028"
+  }
+]

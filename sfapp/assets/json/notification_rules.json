@@ -1,0 +1,72 @@
+[
+  {
+    "type": "temp",
+    "min": 17,
+    "max": 100,
+    "advice": "La température est basse, fermez les fenêtres et les portes",
+    "season": "all"
+  },
+  {
+    "type": "temp",
+    "min": 17,
+    "max": 100,
+    "advice": "Assurez vous que les radiateurs soient bien ouverts",
+    "season": "cold_season"
+  },
+  {
+    "type": "temp",
+    "min": 16,
+    "max": 100,
+    "advice": "Il est conseillé de prévenir un responsable au vu de la très basse température de la pièce",
+    "season": "all"
+  },
+  {
+    "type": "temp",
+    "min": -100,
+    "max": 21,
+    "advice": "Dans le cadre d'une sobriété énergétique, veuillez fermer les radiateurs",
+    "season": "cold_season"
+  },
+  {
+    "type": "temp",
+    "min": -100,
+    "max": 25,
+    "advice": "La température est haute, vous pouvez ouvrir ou fermer les fenêtres et les portes en fonction des conditions extérieur.",
+    "season": "all"
+  },
+  {
+    "type": "temp",
+    "min": -100,
+    "max": 26,
+    "advice": "Vous pouvez fermer les volets si les rayons de soleils impactent la température de la salle.",
+    "season": "all"
+  },
+  {
+    "type": "temp",
+    "min": -100,
+    "max": 28,
+    "advice": "Si possible, allumez la climatisation pour tendre vers les 26°C",
+    "season": "all"
+  },
+  {
+    "type": "hum",
+    "min": 40,
+    "max": 70,
+    "advice": "Un taux d'humidité anormal est détecté, veuillez ouvrir les fenêtres si les conditions extérieurs vous le permettent",
+    "season": "all"
+  },
+  {
+    "type": "hum",
+    "min": 40,
+    "max": 1000,
+    "advice": "L'air semble sec, n'oubliez pas de vous hydrater",
+    "season": "all"
+  },
+  {
+    "type": "co2",
+    "min": 0,
+    "max": 1500,
+    "advice": "Au vu de la concentration 'PPM', il est fortement conseillé d'ouvrir les fenêtres le temps de quelques minutes",
+    "season": "all"
+  }
+]
