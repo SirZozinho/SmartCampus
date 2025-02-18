@@ -1,0 +1,431 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lalezar' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+    <style>
+        /* Container flex pour organiser les graphiques et les inputs côte à côte */
+        .row.justify-content-center .col-12.mb-4 .flex-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* Conteneur du graphique à gauche */
+        .row.justify-content-center .col-12.mb-4 .flex-container .chart-container {
+            flex: 3;
+            margin-right: 20px;
+        }
+
+        /* Conteneur des inputs à droite */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styles des labels dans le formulaire */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container label {
+            display: block;
+            color: black;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        /* Styles des champs de saisie dans le formulaire */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #0a0a0a;
+        }
+
+        /* Titres h5 */
+        h5 {
+            color: black;
+        }
+
+        /* Bouton dans le formulaire de filtrage */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container .filterForm button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Effet au survol du bouton dans le formulaire de filtrage */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container .filterForm button:hover {
+            background: linear-gradient(45deg, #0056b3, #003f7f);
+            transform: scale(1.05);
+        }
+
+        /* Effet lors du clic du bouton dans le formulaire de filtrage */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container .filterForm button:active {
+            transform: scale(0.98);
+            box-shadow: none;
+        }
+
+        /* Style des points en dehors des plages (petite taille et couleur gris clair) */
+        .outside-points {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Style des boutons de type submit dans le formulaire de filtrage */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container button[type="submit"] {
+            display: block;
+            margin: 0 auto; /* Centré horizontalement */
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Effet de survol pour les boutons de type submit */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container button[type="submit"]:hover {
+            background: linear-gradient(45deg, #0056b3, #003f7f);
+            transform: scale(1.05);
+        }
+
+        /* Effet lors du clic du bouton de type submit */
+        .row.justify-content-center .col-12.mb-4 .flex-container .inputs-container button[type="submit"]:active {
+            transform: scale(0.98);
+            box-shadow: none;
+        }
+
+        /* Bouton de filtrage par mois à côté de l'input */
+        .month-filter-btn {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 8px 16px;
+        }
+
+        /* Style pour la zone autour du select */
+        .month-selector-container {
+            display: inline-block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f4f4f4; /* couleur de fond */
+            border: 2px solid #ccc; /* bordure grise */
+            border-radius: 8px; /* bords arrondis */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* légère ombre */
+            font-family: Arial, sans-serif; /* Police propre */
+        }
+
+        .month-selector-container label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333; /* couleur du texte */
+        }
+
+        .month-selector-container select {
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px; /* bords arrondis */
+            background-color: #fff;
+            width: 150px;
+        }
+
+        .month-selector-container select:focus {
+            border-color: #66afe9;
+            outline: none;
+            box-shadow: 0 0 5px rgba(102, 175, 233, 0.8); /* effet au focus */
+        }
+
+        .card {
+            background-color: white;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5" style="margin-left: auto; margin-right: auto; max-width: 80%;">
+        <h2 class="text-center">Statistiques</h2>
+
+        <form>
+            <div class="month-selector-container">
+                <label for="monthSelect">Choisir un mois :</label>
+                <select id="monthSelect" name="month">
+                    <option value="1" {% if selectedMonth == 1 %}selected{% endif %}>Janvier</option>
+                    <option value="2" {% if selectedMonth == 2 %}selected{% endif %}>Février</option>
+                    <option value="3" {% if selectedMonth == 3 %}selected{% endif %}>Mars</option>
+                    <option value="4" {% if selectedMonth == 4 %}selected{% endif %}>Avril</option>
+                    <option value="5" {% if selectedMonth == 5 %}selected{% endif %}>Mai</option>
+                    <option value="6" {% if selectedMonth == 6 %}selected{% endif %}>Juin</option>
+                    <option value="7" {% if selectedMonth == 7 %}selected{% endif %}>Juillet</option>
+                    <option value="8" {% if selectedMonth == 8 %}selected{% endif %}>Août</option>
+                    <option value="9" {% if selectedMonth == 9 %}selected{% endif %}>Septembre</option>
+                    <option value="10" {% if selectedMonth == 10 %}selected{% endif %}>Octobre</option>
+                    <option value="11" {% if selectedMonth == 11 %}selected{% endif %}>Novembre</option>
+                    <option value="12" {% if selectedMonth == 12 %}selected{% endif %}>Décembre</option>
+                </select>
+                <button type="submit" class="btn btn-primary month-filter-btn">Confirmer</button>
+            </div>
+        </form>
+
+
+        <div class="row justify-content-center">
+            <!-- Graphique 2 avec le nombre de salles en dehors de la plage de température -->
+            <div class="col-12 mb-4">
+                <div class="flex-container">
+                    <!-- Graphique 2 à gauche -->
+                    <div class="chart-container">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{ chartData.chart2.title }}</h5>
+                                <canvas id="chart2"></canvas>
+                                <p id="outsidePoints2" class="outside-points"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inputs à droite -->
+                    <div class="inputs-container">
+                        <h5 class="text-center">Filtrer par température (°C)</h5>
+                        <form id="filterForm">
+                            <label for="minValue2">Min:</label>
+                            <input type="number" id="minValue2" name="minValue" value="{{ minTemp }}" placeholder="Min" />
+                            <label for="maxValue2">Max:</label>
+                            <input type="number" id="maxValue2" name="maxValue" value="{{ maxTemp }}" placeholder="Max" />
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphique 3 avec le nombre de salles en dehors de la plage d'humidité -->
+            <div class="col-12 mb-4">
+                <div class="flex-container">
+                    <!-- Graphique 3 à gauche -->
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{ chartData.chart3.title }}</h5>
+                                <canvas id="chart3"></canvas>
+                                <p id="outsidePoints3" class="outside-points"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inputs à droite -->
+                    <div class="inputs-container">
+                        <h5 class="text-center">Filtrer par humidité (%)</h5>
+                        <form id="filterForm3">
+                            <label for="minValue3">Min:</label>
+                            <input type="number" id="minValue3" name="minHumidity" value="{{ minHum }}" placeholder="Min" />
+                            <label for="maxValue3">Max:</label>
+                            <input type="number" id="maxValue3" name="maxHumidity" value="{{ maxHum }}" placeholder="Max" />
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphique 4 avec le nombre de salles en dehors de la plage du taux de co2 -->
+            <div class="col-12 mb-4">
+                <div class="flex-container">
+                    <!-- Graphique 4 à gauche -->
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{ chartData.chart4.title }}</h5>
+                                <canvas id="chart4"></canvas>
+                                <p id="outsidePoints4" class="outside-points"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inputs à droite -->
+                    <div class="inputs-container">
+                        <h5 class="text-center">Filtrer par taux de CO2 (PPM)</h5>
+                        <form id="filterForm4">
+                            <label for="minValue4">Min:</label>
+                            <input type="number" id="minValue4" name="minCo2" value="{{ minCo2 }}" placeholder="Min" />
+                            <label for="maxValue4">Max:</label>
+                            <input type="number" id="maxValue4" name="maxCo2" value="{{ maxCo2 }}" placeholder="Max" />
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Données du graphique pour la température
+        let chart2Data = {
+            labels: {{ chartData.chart2.labels|json_encode|raw }},
+            datasets: [{
+                label: "{{ chartData.chart2.title }}",
+                data: {{ chartData.chart2.data|json_encode|raw }},
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Créer le graphique pour la température
+        let chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
+            type: 'line',
+            data: chart2Data,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Jours'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Nombre de salles'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Données du graphique pour l'humidité
+        let chart3Data = {
+            labels: {{ chartData.chart3.labels|json_encode|raw }},
+            datasets: [{
+                label: "{{ chartData.chart3.title }}",
+                data: {{ chartData.chart3.data|json_encode|raw }},
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Créer le graphique pour l'humidité
+        let chart3 = new Chart(document.getElementById('chart3').getContext('2d'), {
+            type: 'line',
+            data: chart3Data,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Jours'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Nombre de salles'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        let chart4Data = {
+            labels: {{ chartData.chart4.labels|json_encode|raw }},
+            datasets: [{
+                label: "{{ chartData.chart4.title }}",
+                data: {{ chartData.chart4.data|json_encode|raw }},
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderColor: 'rgba(0, 0, 0, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Créer le graphique pour le taux de CO2
+        let chart4 = new Chart(document.getElementById('chart4').getContext('2d'), {
+            type: 'line',
+            data: chart4Data,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Jours'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Nombre de salles'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Gestion du formulaire de filtrage pour la température
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const month = document.getElementById('monthSelect').value;
+            const minValue = document.getElementById('minValue2').value;
+            const maxValue = document.getElementById('maxValue2').value;
+            const url = new URL(window.location.href);
+            url.searchParams.set('month', month);
+            url.searchParams.set('minValue', minValue);
+            url.searchParams.set('maxValue', maxValue);
+            window.location.href = url.toString();
+        });
+
+        // Gestion du formulaire de filtrage pour l'humidité
+        document.getElementById('filterForm3').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const minHumidity = document.getElementById('minValue3').value;
+            const maxHumidity = document.getElementById('maxValue3').value;
+            const url = new URL(window.location.href);
+            url.searchParams.set('minHumidity', minHumidity);
+            url.searchParams.set('maxHumidity', maxHumidity);
+            window.location.href = url.toString();
+        });
+
+        // Gestion du formulaire de filtrage pour le taux de CO2
+        document.getElementById('filterForm4').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const minCo2 = document.getElementById('minValue4').value;
+            const maxCo2 = document.getElementById('maxValue4').value;
+            const url = new URL(window.location.href);
+            url.searchParams.set('minCo2', minCo2);
+            url.searchParams.set('maxCo2', maxCo2);
+            window.location.href = url.toString();
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Smart Campus{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+
+    <header>
+            <nav style="position: fixed; top: 0; width: 100vw; z-index: 100;">
+                <div>
+                <ul class="dashboard-menu">
+                    <h1><a href="/">Smart Campus</a></h1>
+
+                    {% if not is_granted('ROLE_USER')%}
+                    <li><a href="/login">Connexion</a></li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_USER') %}
+                    <li><a href="/tasks">Tâches</a></li>
+                    <li><a href="/rooms">Salles</a></li>
+                    <li><a href="/acquisitionsystem">Systèmes d'acquisition</a></li>
+
+                    <!--{% if is_granted('ROLE_ADMIN') %}-->
+                        <li><a href="/stats">Statistiques</a></li>
+                        <li><a href="/technicians">Techniciens</a></li>
+                    <!--{% endif %}-->
+                    <li class="drop-down-menu"><a href="#">{{ app.user.userIdentifier }} <i class="bi bi-chevron-down"></i></a>
+                        <ul class="element-under">
+                            <li>
+                                <a class="btn btn-outline-secondary" href="/password/modify">Modifier le mot de passe</a>
+                            </li>
+                            <li>
+                                <a class="btn btn-outline-danger logout" href="{{ path('app_logout') }}">
+                                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+                </div>
+            </nav>
+        <div style="height: 75px"></div>
+    </header>
+
+    <body>
+        {% block body %}
+
+
+        {% endblock %}
+    </body>
+</html>

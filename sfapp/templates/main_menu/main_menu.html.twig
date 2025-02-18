@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Smart Campus{% endblock %}
+
+{% block stylesheets%}
+
+    <link href='https://fonts.googleapis.com/css?family=Lalezar' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+
+    <style>
+        .main-title {
+            margin-bottom: 100px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #searchBar {
+            display: inline;
+            margin-left: 61px;
+        }
+
+        .row {
+            justify-content: center;
+            display: inline-flex;
+        }
+
+        .widget-component-minimised a {
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
+        .widget-component-minimised a:hover {
+            text-decoration: none;
+            color: #d6d6d6;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+    <script src="{{ asset('js/search.js') }}"></script>
+
+    <div class="container">
+
+        <div class="container">
+
+            <h1 class="main-title" style=" color: #FFFFFF">Bienvenue sur Smart Campus !</h1>
+
+            <div class="widget-component-minimised padd">
+
+                <h2>Liste des salles</h2>
+
+                <div style="height: 2px; background-color: white; width: 100%;"></div> {# Horizontal divider #}
+
+                {# Search form #}
+                <form>
+                    <div class="input-group mb-3" style="padding-top: 20px;">
+                        <label for="searchBar" class="searchTextField" style="width: 30%;">
+                            <input type="text" id="searchBar" name="name" class="form-control" placeholder="Rechercher une salle" value="{{ searchTerm }}" />
+                        </label>
+
+                        <button type="submit" class="btn btn-success bi bi-search"></button>
+                        <button type="button" onclick="clearSearch()" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
+
+                        {# Floor filter dropdown #}
+                        <label for="floorFilter" style="margin-left: auto">
+                            <select name="floor" class="form-select custom-select" onchange="this.form.submit()">
+                                <option value="all" {% if floorFilter == 'all' or not floorFilter %}selected{% endif %}>Tous les étages</option>
+                                <option value="Rez-de-chaussée" {% if floorFilter == 'Rez-de-chaussée' %}selected{% endif %}>Rez-de-chaussée</option>
+                                {% for floor in allFloor %}
+                                    {% if floor != 0 %}
+                                        <option value="{{ floor }}" {% if floorFilter == floor %}selected{% endif %}>Étage {{ floor }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </div>
+                </form>
+
+                {# Room list grouped by floor #}
+                <div class="row">
+                    {% for floor in allFloor %}
+                        {% set hasRooms = false %}
+
+                        {# Check if there are any rooms for the current floor #}
+                        {% for room in rooms %}
+                            {% if room.floor == floor %}
+                                {% set hasRooms = true %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {# Display floor title only if it contains rooms #}
+                        {% if hasRooms %}
+                            {% if floor != 0 %}
+                                <h3 style="padding-top: 20px; margin-left: 50px;">Étage {{ floor }} : </h3>
+                            {% else %}
+                                <h3 style="padding-top: 50px; margin-left: 50px;">Rez-de-chaussée :</h3>
+                            {% endif %}
+                        {% endif %}
+
+                        {# Display room cards if there are any #}
+                        {% if rooms is not null %}
+                            {% for room in rooms %}
+                                {% if room.floor == floor %}
+                                    <div class="widget-component-minimised card" style="max-width: 175px; margin: 10px 10px 10px 10px; border: 2px solid {{ room.isTempInRange and room.isHumInRange and room.isCo2InRange ? '#ffffff00' : '#FF8888' }};">
+                                        <a href="{{ path('app_rooms_information', {name: room.name}) }}">
+                                            <div class="widget-component-title">
+                                                <h3>{{ room.name }}</h3>
+                                            </div>
+                                            <div style="height: 2px; background-color: white; width: 100%;"></div> {# Horizontal divider #}
+
+                                            {# Display temperature #}
+                                            <div class="widget-info-div" style="padding-top: 10px">
+                                                <span class="bi bi-thermometer-half widget-info-div-logo"></span>
+                                                {% if room.temp is defined %}
+                                                    <h4 style="color: {{ room.isTempInRange ? 'white' : '#FF8888' }};">{{ room.temp|number_format(1, ',', ' ') }} °C</h4>
+                                                {% else %}
+                                                    <h4>--</h4>
+                                                {% endif %}
+                                            </div>
+
+                                            {# Display CO2 level #}
+                                            <div class="widget-info-div">
+                                                <span class="bi bi-cloud widget-info-div-logo"></span>
+                                                {% if room.co2 is defined %}
+                                                    <h4 style="color: {{ room.isCo2InRange ? 'white' : '#FF8888' }};">{{ room.co2|number_format(0, ' ', ' ') }} PPM</h4>
+                                                {% else %}
+                                                    <h4>--</h4>
+                                                {% endif %}
+                                            </div>
+
+                                            {# Display humidity #}
+                                            <div class="widget-info-div">
+                                                <span class="bi bi-droplet widget-info-div-logo"></span>
+                                                {% if room.hum is defined %}
+                                                    <h4 style="color: {{ room.isHumInRange ? 'white' : '#FF8888' }};">{{ room.hum|number_format(1, ',', ' ') }} %</h4>
+                                                {% else %}
+                                                    <h4>--</h4>
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

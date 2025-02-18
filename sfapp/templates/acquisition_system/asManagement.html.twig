@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des systèmes d'acquisition - Smart Campus{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lalezar' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="{{ asset('css/actions.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <script src="{{ asset('js/search.js') }}"></script>
+
+    <div class="container">
+        <h1 class="main-title display-4 mb-4">Gestion des systèmes d'acquisition</h1>
+
+        {# Search form and filters section #}
+        <form method="get" action="{{ path('app_acquisition_system') }}" class="widget-info-div row mb-3 g-2">
+            <div class="search-bar-container">
+                <div class="input-group mb-3">
+                    <label for="searchBar" class="searchTextField">
+                        <input type="text" id="searchBar" name="name" class="form-control" placeholder="Rechercher un système d'acquisition" value="{{ searchTerm }}" />
+                    </label>
+
+                    <button type="submit" class="btn btn-success bi bi-search"></button>
+                    <button type="button" onclick="clearSearch()" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_acquisition_system_add') }}" class="btn btn-success custom-select">Ajouter un système d'acquisition</a>
+                {% endif %}
+
+                <div class="filter-selects">
+                    <label for="stateFilter">
+                        <select name="state" class="form-select custom-select" onchange="this.form.submit()">
+                            <option value="all" {% if stateFilter == 'all' or not stateFilter %}selected{% endif %}>Tous les états</option>
+                            {% for state in allStates %}
+                                <option value="{{ state }}" {% if stateFilter == state %}selected{% endif %}>
+                                    {{ state|capitalize }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        {# Acquisition systems table #}
+        <div class="content">
+            <table class="table table-hover table-centered text-center">
+                <thead class="table-light">
+                <tr>
+                    <th></th>
+                    <th>Nom</th>
+                    <th>État</th>
+                    <th>Salle associée</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for system in systems %}
+                    <tr>
+                        {# Display state icon with color based on system state #}
+                        <td>
+                            <i class="bi-circle-fill
+                                {% if system.state.value == "FONCTIONNEL" %}
+                                    text-success
+                                {% elseif system.state.value == "MAINTENANCE" %}
+                                    text-warning
+                                {% elseif system.state.value == "DEFAULTER" %}
+                                    text-danger
+                                {% else%}
+                                    text-secondary
+                                {% endif %}"
+                                data-bs-toggle="tooltip"
+                                title="{{ system.state.value }}">
+                            </i>
+                        </td>
+
+                        {# Display system name #}
+                        <td>{{ system.name }}</td>
+
+                        {# Display system state #}
+                        <td>{{ system.state.value }}</td>
+
+                        {# Display associated room with link if available #}
+                        <td>
+                            {% if system.room and system.room.name %}
+                                <a href="{{ path('app_room', { name: system.room.name }) }}" class="custom-link">
+                                    {{ system.room.name }}
+                                </a>
+                            {% else %}
+                                Aucune salle associée
+                            {% endif %}
+                        </td>
+
+                        {# Display action buttons for modify and delete #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <td>
+                            <a href="{{ path('app_acquisition_system_modify', { name: system.name }) }}" class="btn btn-warning text-white me-2">Modifier</a>
+                            <form action="{{ path('app_acquisition_system_delete', { name: system.name }) }}" method="post" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce système d\'acquisition ?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger me-2">Supprimer</button>
+                            </form>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                    {# Message if no systems are found #}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            {% if searchTerm %}
+                                Aucun système d'acquisition trouvé pour "{{ searchTerm }}".
+                            {% else %}
+                                Aucun système d'acquisition trouvé.
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
