@@ -1,0 +1,94 @@
+.dashboard-menu {
+    padding: 10px;
+    margin: 0 0 20px 0;
+    list-style: none;
+    background-color: #4E4E4E;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-radius: 0 0 7px 7px;
+    width: 100%;
+}
+
+.dashboard-menu h1 a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 40px;
+    color: white;
+    display: inline-block;
+}
+
+.dashboard-menu li {
+    position: relative;
+}
+
+.dashboard-menu li a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+    display: inline-block;
+}
+
+.dashboard-menu li a:hover {
+    color: #d6d6d6;
+}
+
+/* Sous-menu */
+.dashboard-menu .drop-down-menu {
+    cursor: pointer;
+    position: relative;
+}
+
+.dashboard-menu .element-under {
+    display: none; /* Masquer par défaut */
+    position: absolute;
+    top: 100%; /* Positionner sous l'élément parent */
+    left: 0;
+    background-color: #4E4E4E;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /*box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);*/
+    border-radius: 7px;
+    z-index: 1000;
+    min-width: 200px;
+}
+
+.dashboard-menu .element-under li {
+    padding: 10px;
+}
+
+.dashboard-menu .element-under li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.element-under li a i {
+    font-size: 15px;
+}
+
+.drop-down-menu a i {
+    font-size: 20px;
+}
+
+/* Afficher le sous-menu au survol */
+.dashboard-menu .drop-down-menu:hover .element-under {
+    display: block;
+    right: -10px; /* Alignement dynamique à droite */
+    left: auto; /* Supprime le comportement par défaut de gauche */
+}
+
+.dashboard-menu h1 {
+    font-size: 35px;
+    margin-left: 15px;
+    margin-top: 15px;
+    position: absolute;
+    left: 0;
+}

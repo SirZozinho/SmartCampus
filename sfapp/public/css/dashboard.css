@@ -1,0 +1,248 @@
+body {
+    background: linear-gradient(#58D8FF, #2A7B94) no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    font-family: Lalezar, serif;
+    color : white;
+}
+
+.widget-info-div {
+    display: flex ;
+    flex-direction: row;
+    margin: 5px 10px 5px 10px;
+}
+
+.widget-component-minimised {
+    background-color: #5F5F5F80;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-radius: 15px;
+    box-shadow: 2px 6px 5px 0 #11053b66;
+}
+
+.widget-component-title {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.widget-info-div-logo {
+    margin: 0 10px 0 10px;
+}
+
+.main-title {
+    text-align: center;
+}
+
+.search-form input {
+    margin-right: 15px;
+}
+
+.search-form button {
+    margin-left: 10px;
+}
+
+.btn.btn-light.element{
+    background-color: #4E4E4E !important;
+    color: white;
+    border-color: #4E4E4E;
+}
+
+.btn.btn-light.element:hover{
+    background-color: #3D3D3D !important;
+    color: white;
+    border-color: #4E4E4E;
+}
+
+.bi.btn.btn-success{
+    background-color: green !important;
+    color: white;
+    border-color: green;
+}
+
+.bi.btn.btn-success:hover{
+    background-color: darkgreen !important;
+}
+
+.main-title{
+    margin-bottom: 100px;
+}
+.container{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+}
+
+#searchBar{
+    display: inline;
+    margin-left: 61px;
+}
+
+.row{
+    justify-content: center;
+    display: inline-flex;
+}
+
+.widget-component-minimised a{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.widget-component-minimised a :hover{
+    text-decoration: none;
+    color: #d6d6d6;
+}
+
+.widget-container{
+    display: flex; /* Active le flexbox */
+    flex-wrap: wrap; /* Permet aux widgets de revenir à la ligne si nécessaire */
+    gap: 16px; /* Optionnel : espace entre les widgets */
+}
+
+.notification-line {
+    background-color: #fff; /* Fond blanc */
+    color: black;
+    border: 1px solid #ddd; /* Bordure grise légère */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 16px; /* Espace interne */
+    width: 100%; /* Widget prend toute la largeur */
+    box-sizing: border-box; /* Inclut les paddings dans la largeur totale */
+    margin: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optionnel : ombre légère */
+    text-align: justify-all;
+
+}
+
+.widget-component-position{
+    flex: 1 1 40%; /* Prend 50% de la largeur */
+    box-sizing: border-box; /* Inclut les marges et padding dans la taille */
+    height: auto; /* Hauteur automatique */
+    padding: 10px; /* Optionnel : espace intérieur */
+    text-align: center; /* Centrage du contenu */
+}
+
+.column{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.chart-wrapper-perfect {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 20px auto; /* Centrer et ajouter de l'espace */
+    width: 500px; /* Largeur suffisante pour les arcs */
+    height: 270px; /* Hauteur ajustée pour contenir les arcs agrandis */
+}
+
+.chart-item-perfect {
+    position: relative;
+    width: 350px; /* Largeur du canvas ajustée */
+    height: 240px; /* Hauteur du canvas ajustée */
+}
+
+.chart-label-perfect-left {
+    position: absolute;
+    top: 50%;
+    left: 56px;
+    transform: translate(-50%, -50%);
+    font-size: 1.8em;
+    text-align: center;
+    color: #ffffff;
+}
+
+.chart-label-perfect-right {
+    position: absolute;
+    top: 50%;
+    right: 56px;
+    transform: translate(50%, -50%);
+    font-size: 1.8em;
+    text-align: center;
+    color: #ffffff;
+}
+
+.center-data {
+    position: absolute;
+    text-align: center;
+    font-size: 1.8em;
+    color: white;
+}
+
+.center-data .temperature {
+    font-size: 1.8em;
+    margin: 0;
+    padding: 0;
+}
+
+.center-data .time {
+    font-size: 1em;
+    margin: 0;
+}
+
+.red-font {
+    color: #ff7d7d;
+}
+.temp-font {
+    color: #acd1d1;
+    margin: 0;
+    padding: 0;
+}
+.hum-font {
+    color: #bbcdda;
+}
+.co2-font {
+    color: #f4d5a3;
+}
+
+.main-title{
+    margin-bottom:60px;
+    margin-top : 50px
+}
+.container{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+}
+
+.row{
+    justify-content: center;
+    display: inline-flex;
+    width: 100%;
+}
+
+.widget-component-minimised a{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.widget-component-minimised a :hover{
+    text-decoration: none;
+    color: #d6d6d6;
+}
+
+.card{
+    background-color: #7B7B7BCC;
+    color: #FFFFFF;
+}
+
+.padd{
+    padding: 20px;
+}
+
+.custom-select {
+    width: 250px; /* Augmente la largeur */
+    max-width: 5%; /* Largeur relative plus grande */
+    min-width: 250px; /* Assure une taille minimale */
+    padding: 7px; /* Padding interne */
+    text-align: center;
+}
+
+
+.filter-selects {
+    display: flex;
+    gap: 10px;
+    margin-left: auto; /* Pousse les selects à droite */
+    padding: 1px; /* Padding autour des selects */
+}
